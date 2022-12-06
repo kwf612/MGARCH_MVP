@@ -5,22 +5,22 @@
 - Silke Kofoed Christiansen
 
 This repository contains
-1. data folder -  CVS with the main data used through out this thesis.
-1. Descriptive_Analysis.R - Notebook used to generate the results used in Section 5: Description of the Data
-2. results.ipynb - Notebook where all results are displayed (loaded from data folder)
-3. Replication_Hetland_et_al.ipynb - Notebook used to generate results based from Table 1 in Hetland et al. (2022)
-4. Eigen_GARCH.py - Contains the Eigen_GARCH function used to generate the results for the Dynamic Eigen GARCH model
-5. Descriptive_Analysis.R - Notebook used to generate the results used in Section 5: Description of the Data
+1. data folder -  CVS with the main data used through out this thesis and Results from running the Python file.
+2. Eigen_GARCH.py - Contains the Eigen_GARCH function used to generate the results for the Dynamic Eigen GARCH model.
+3. Descriptive_Analysis.R - R script used to generate for the Descriptive analysis.
+4. Python file - Notebook used to generate the results for the λ-MGARCH in the Empirical analysis.
+5. R file - R script used to generate the results for the GO-GARCH and the DCC-GARCH in the Empirical analysis.
+6. Replication_Hetland_et_al.ipynb - Notebook used to generate results based from Table 1 in Hetland et al. (2022)
 
-# An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models
+## An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models
 
 Our project is titled **An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models**. Results for out Master thesis in economics from the university of Copenhagen. This repository contains the algorithm for the Dynamic Conditional Eigenvalue GARCH model (λ-MGARCH) introduced in Hetland et al. (2022 JoE).
 
-The **results** (tables, figures) of the project can be seen from running [Results.ipynb](Results.ipynb).
+If one is interested in running all the results manually, the files should be run in the following order: Descriptive_Analysis.R, Python file, R file. OBS. also change the the working directory.
+**Estimated run time:** 10 hours.
 
-**Dependencies:** Apart from a standard Anaconda Python 3 installation, the project requires the following installations:
+**Dependencies:** Apart from a standard Anaconda Python 3 and R installation, the project requires multiple other installations, these can be found at the top of every script.
 
-``pip install chaospy``
-``pip install pathlib``
 
- 
+
+
