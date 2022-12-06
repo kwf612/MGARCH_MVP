@@ -8,8 +8,8 @@ This repository contains
 1. data folder -  CVS with the main data used through out this thesis and Results from running the Python file.
 2. Eigen_GARCH.py - Contains the Eigen_GARCH function used to generate the results for the Dynamic Eigen GARCH model.
 3. Descriptive_Analysis.R - R script used to generate for the Descriptive analysis.
-4. Python file - Notebook used to generate the results for the λ-MGARCH in the Empirical analysis.
-5. R file - R script used to generate the results for the GO-GARCH and the DCC-GARCH in the Empirical analysis.
+4. Eigen_garch_GMVP.ipynb - Notebook used to generate the results for the λ-MGARCH in the Empirical analysis.
+5. MGARCH_MVP.R - R script used to generate the results for the GO-GARCH and the DCC-GARCH in the Empirical analysis.
 6. Replication_Hetland_et_al.ipynb - Notebook used to generate results based from Table 1 in Hetland et al. (2022)
 
 ## An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models
