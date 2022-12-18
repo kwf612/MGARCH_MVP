@@ -16,8 +16,10 @@ This repository contains
 
 Our project is titled **An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models**. Results for out Master thesis in economics from the university of Copenhagen. This repository contains the algorithm for the Dynamic Conditional Eigenvalue GARCH model (λ-MGARCH) introduced in Hetland et al. (2022 JoE).
 
-If one is interested in running all the results manually, the files should be run in the following order: Descriptive_Analysis.R, Python file, R file. OBS. also change the the working directory.
-**Estimated run time:** 10 hours.
+If one is interested in running all the results manually, the files should be run in the following order: Descriptive_Analysis.R, Python file, R file. 
+**Estimated run time:** 10 hours. 
+
+**OBS.** To run the files, you would need to change the the working directory, and make other minor changes in the files.
 
 **Dependencies:** Apart from a standard Anaconda Python 3 and R installation, the project requires multiple other installations, these can be found at the top of every script.
 
