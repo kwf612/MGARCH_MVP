@@ -4,6 +4,7 @@ library(ggplot2)
 library(PerformanceAnalytics)
 library(tseries)
 require(gridExtra)
+library(grid)
 library(FinTS)
 
 # Load data, time series closing prices
@@ -22,7 +23,8 @@ plot_1 <- ggplot(JPM, aes(x = zoo::index(JPM), y = JPM.Adjusted)) +
   scale_x_date(breaks = "2 year", date_labels ="%Y" ) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  labs(x = "", y ="Adjusted closing price (DKK)") 
+  ggtitle(label= "")+
+  labs(x = "", y ="Adjusted closing price")
 
 plot_2 <-ggplot(MSFT, aes(x = zoo::index(JPM), y = `MSFT.Adjusted`)) +
   geom_line(size = 0.2) + 
@@ -30,7 +32,8 @@ plot_2 <-ggplot(MSFT, aes(x = zoo::index(JPM), y = `MSFT.Adjusted`)) +
   scale_x_date(breaks = "2 year", date_labels ="%Y" ) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  labs(x = "", y ="Adjusted closing price (DKK)") 
+  ggtitle(label= "")+
+  labs(x = "", y ="Adjusted closing price") 
 
 plot_3 <-ggplot(KO, aes(x = zoo::index(JPM), y = `KO.Adjusted`)) +
   geom_line(size = 0.2) + 
@@ -38,14 +41,13 @@ plot_3 <-ggplot(KO, aes(x = zoo::index(JPM), y = `KO.Adjusted`)) +
   scale_x_date(breaks = "2 year", date_labels ="%Y" ) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  labs(x = "", y ="Adjusted closing price (DKK)") 
+  ggtitle(label= "")+
+  labs(x = "", y ="Adjusted closing price") 
 
-grid.arrange(plot_1, plot_2, plot_3, ncol=1)
-
-# Calculate log-returns
-JPM.ret = CalculateReturns(JPM, method = "log")*100
-MSFT.ret = CalculateReturns(MSFT, method = "log")*100
-KO.ret = CalculateReturns(KO, method = "log")*100
+# Calculate returns
+JPM.ret = CalculateReturns(JPM, method = "discrete")*100
+MSFT.ret = CalculateReturns(MSFT, method = "discrete")*100
+KO.ret = CalculateReturns(KO, method = "discrete")*100
 
 # Remove first NA observation
 JPM.ret = JPM.ret[-1,]
@@ -55,42 +57,33 @@ KO.ret = KO.ret[-1,]
 # Plot returns
 plot_4 <- ggplot(JPM.ret, aes(x = zoo::index(JPM.ret), y = JPM.Adjusted)) +
   geom_line(size = 0.2) + 
-  ggtitle("JPM") +
+  ggtitle("") +
   scale_x_date(breaks = "2 year", date_labels ="%Y" ) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  labs(x = "", y ="Log Returns (%)") 
+  labs(x = "", y ="Returns (%)") 
 
 plot_5 <-ggplot(MSFT.ret, aes(x = zoo::index(JPM.ret), y = `MSFT.Adjusted`)) +
   geom_line(size = 0.2) + 
-  ggtitle("MSFT") +
+  ggtitle("") +
   scale_x_date(breaks = "2 year", date_labels ="%Y" ) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  labs(x = "", y ="Log Returns (%)") 
+  labs(x = "", y ="Returns (%)") 
 
 plot_6 <-ggplot(KO.ret, aes(x = zoo::index(JPM.ret), y = `KO.Adjusted`)) +
   geom_line(size = 0.2) + 
-  ggtitle("KO") +
+  ggtitle("") +
   scale_x_date(breaks = "2 year", date_labels ="%Y" ) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  labs(x = "", y ="Log Returns (%)") 
+  labs(x = "", y ="Returns (%)") 
 
-grid.arrange(plot_1, plot_4, 
-             plot_2, plot_5, 
-             plot_3, plot_6, ncol=2)
+JPM_plot = grid.arrange(plot_1, plot_4, ncol=2, top = textGrob("(a) JPMorgan Chase & Co. (JPM)",gp=gpar(fontsize=15,font=3)))
+MSFT_plot = grid.arrange(plot_2, plot_5, ncol=2, top = textGrob("(b) Microsoft Corporation (MSFT)",gp=gpar(fontsize=15,font=3)))
+KO_plot = grid.arrange(plot_3, plot_6, ncol=2, top = textGrob("(c) The Coca-Cola Company (KO)",gp=gpar(fontsize=15,font=3)))
 
-# Plot density, normal
-par(mfrow=c(1,1))
-qqnorm(JPM.ret, main="JPM Returns")
-qqline(JPM.ret, col="red")
-
-qqnorm(MSFT.ret, main="MSFT Returns")
-qqline(MSFT.ret, col="red")
-
-qqnorm(KO.ret, main="KO Returns")
-qqline(KO.ret, col="red")
+grid.arrange(JPM_plot, MSFT_plot, KO_plot, ncol=1)
 
 # Create combined data series
 ret = na.omit(merge(merge(JPM.ret,MSFT.ret),KO.ret))
@@ -98,6 +91,7 @@ ret = na.omit(merge(merge(JPM.ret,MSFT.ret),KO.ret))
 write.csv(ret, file="~/Desktop/Master/returns_R.csv", row.names = FALSE)
 
 # Summary stats
+summary(ret)
 statsDaily = rbind(apply(ret, 2, mean),
                    apply(ret, 2, var),
                    apply(ret, 2, sd),
@@ -106,15 +100,6 @@ statsDaily = rbind(apply(ret, 2, mean),
 rownames(statsDaily) = c("Mean", "Variance", "Std Dev",
                          "Skewness",  "Excess Kurtosis")
 round(statsDaily, digits=4)
-
-# ACF
-par(mfrow=c(1,3))
-acf(coredata(JPM.ret), main="JPM", lwd=2)
-acf(coredata(na.omit(MSFT.ret)), main="MSFT", lwd=2)
-acf(coredata(KO.ret), main="KO", lwd=2)
-
-# Visualizing correlation matrices
-cor(ret)
 
 # Normality test
 ret$JPM.Adjusted %>% jarque.bera.test()
@@ -130,19 +115,3 @@ ret$KO.Adjusted  %>% adf.test()
 na.omit(ret$JPM.Adjusted) %>% ArchTest(lags = 10)
 na.omit(ret$MSFT.Adjusted)  %>% ArchTest(lags = 10)
 na.omit(ret$KO.Adjusted)  %>% ArchTest(lags = 10)
-
-# Calculate log-returns
-JPM.ret = CalculateReturns(JPM)*100
-MSFT.ret = CalculateReturns(MSFT)*100
-KO.ret = CalculateReturns(KO)*100
-
-# Remove first NA observation
-JPM.ret = JPM.ret[-1,]
-MSFT.ret = MSFT.ret[-1,]
-KO.ret = KO.ret[-1,]
-
-# Create combined data series
-ret = na.omit(merge(merge(JPM.ret,MSFT.ret),KO.ret))
-
-write.csv(ret, file="~/Desktop/Master/returns_R_simple.csv", row.names = FALSE)
-

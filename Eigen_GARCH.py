@@ -82,13 +82,12 @@ def eigenresiduals(parameters, x, lambdas, out=None):
 
     # Conditional eigenvalue dynamics    
     lambdas = (np.ones((T,p))).transpose()
-    residuals = (np.ones((T,p))).transpose()
     
     for t in range(1,T):
-        lambdas[:,t:t+1] = W + A @ np.multiply(Xtilde[:,t-1:t],Xtilde[:,t-1:t]) + B @ lambdas[:,t-1:t]
-        residuals[:,t:t+1] = np.multiply(np.sqrt(np.diag(lambdas[:,t:t+1])),Xtilde[:,t-1:t])
-        
-    # Residuals
+        lambdas[:,t:t+1] = W_eig + A_eig @ np.multiply(Xtilde[:,t-1:t],Xtilde[:,t-1:t]) + B_eig @ lambdas[:,t-1:t]
+        evalues, evectors = np.linalg.eig(np.diag(np.concatenate(lambdas[:,t:t+1])))
+        sqrt_matrix = evectors @ np.diag(np.sqrt(evalues)) @ np.linalg.inv(evectors)
+        residuals[:,t:t+1] = np.vstack(np.diag(np.multiply(np.sqrt(1/np.diag(np.concatenate(lambdas[:,t:t+1]))),Xtilde[:,t-1:t])))
     
     # Return
     return residuals
