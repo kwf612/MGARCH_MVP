@@ -12,7 +12,7 @@ This repository contains
 5. MGARCH_MVP.R - R script used to generate the results for the GO-GARCH and the DCC-GARCH in the Empirical analysis.
 6. Replication_Hetland_et_al.ipynb - Notebook used to generate results based from Table 1 in Hetland et al. (2022)
 
-## An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models
+## The Dynamic Conditional Eigenvalue MGARCH model: An Empirical and Economic Evaluation
 
 Our project is titled **An evaluation of the economic performance of the multivariate Dynamic Conditional Eigenvalue GARCH model compared with existing GARCH models**. Results for out Master thesis in economics from the university of Copenhagen. This repository contains the algorithm for the Dynamic Conditional Eigenvalue GARCH model (λ-MGARCH) introduced in Hetland et al. (2022 JoE).
 
